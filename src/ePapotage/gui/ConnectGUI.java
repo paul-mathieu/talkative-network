@@ -79,11 +79,23 @@ public class ConnectGUI {
         connectButton.addActionListener(e -> {
             // We get the name and if the Bavard already exists we log to him, otherwise we deny the log in
             if (this.requestType.equals("connect")){
-                ePapotage.getConcierge().connectToBavard(this.getRequestUsername(), usernameInput.getText());
-                frame.dispose();
+                if (usernameInput.getText().equals(this.getRequestUsername())) {
+                    JOptionPane.showMessageDialog(frame, "You don't want to hear yourself talk, do you?");
+                } else if (!ePapotage.getConcierge().isBavardExisting(usernameInput.getText())) {
+                    JOptionPane.showMessageDialog(frame, "This bavard doesn't exist");
+                } else {
+                    ePapotage.getConcierge().connectToBavard(this.getRequestUsername(), usernameInput.getText());
+                    frame.dispose();
+                }
             } else if (this.requestType.equals("disconnect")){
-                ePapotage.getConcierge().disconnectToBavard(this.getRequestUsername(), usernameInput.getText());
-                frame.dispose();
+                if (usernameInput.getText().equals(this.getRequestUsername())) {
+                    JOptionPane.showMessageDialog(frame, "You don't want to hear yourself anymore?");
+                } else if (!ePapotage.getConcierge().isBavardExisting(usernameInput.getText())) {
+                    JOptionPane.showMessageDialog(frame, "This bavard doesn't exist");
+                } else {
+                    ePapotage.getConcierge().disconnectToBavard(this.getRequestUsername(), usernameInput.getText());
+                    frame.dispose();
+                }
             }
         });
 

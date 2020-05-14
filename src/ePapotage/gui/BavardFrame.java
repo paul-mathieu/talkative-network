@@ -55,10 +55,9 @@ public class BavardFrame extends JFrame implements PapotageListener {
 		// If the person closes the window we inform the Concierges who are listening to
 		// the bavard, that his window has been closed
 		this.addWindowListener(new WindowAdapter() {
-
 			@Override
 			public void windowClosed(WindowEvent windowEvent) {
-				if (ePapotage.getConcierge().getListeners().contains(bavardFrame)) {
+				if (ePapotage.getConcierge().getListeners().contains(bavard)) {
 					ePapotage.removeBavard(bavardUsername);
 				}
 			}
@@ -130,8 +129,6 @@ public class BavardFrame extends JFrame implements PapotageListener {
 //			}
 //		});
 
-		// Set set the Bavard of the BavardFrame
-		this.bavard = bavard;
 
 		// We are now using a GroupLayout which is pretty hard to explain and to deal
 		// with, but we finally succeed :D

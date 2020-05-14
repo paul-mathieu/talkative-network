@@ -75,6 +75,10 @@ public class Concierge {
 		transformer.transform(source, result);
 	}
 
+	public boolean isBavardExisting(String username){
+		return true;
+	}
+
 	public void addListener(PapotageListener listener) {
 		listeners.add(listener);
 	}
