@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement />
+  <nodes>
+    <node x="151.0" y="301.0">ePapotage.gui.LogInGUI</node>
+    <node x="45.0" y="0.0">ePapotage.PapotageListener</node>
+    <node x="184.0" y="227.0">ePapotage.ePapotage</node>
+    <node x="0.0" y="227.0">ePapotage.gui.ConciergeFrame</node>
+    <node x="0.0" y="153.0">ePapotage.gui.AdministratorGUI</node>
+    <node x="0.0" y="79.0">ePapotage.gui.BavardFrame</node>
+    <node x="197.0" y="153.0">ePapotage.gui.CreateBavardGUI</node>
+    <node x="139.0" y="79.0">ePapotage.Bavard</node>
+    <node x="0.0" y="301.0">ePapotage.Concierge</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="ePapotage.gui.BavardFrame" target="ePapotage.PapotageListener">
+      <point x="0.0" y="-14.5" />
+      <point x="59.5" y="54.0" />
+      <point x="83.0" y="54.0" />
+      <point x="-38.0" y="14.5" />
+    </edge>
+    <edge source="ePapotage.Bavard" target="ePapotage.PapotageListener">
+      <point x="0.0" y="-14.5" />
+      <point x="182.5" y="54.0" />
+      <point x="159.0" y="54.0" />
+      <point x="38.0" y="14.5" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="1.0" x="816.0" y="124.5" />
+  <SelectedNodes>
+    <node>ePapotage.gui.LogInGUI</node>
+  </SelectedNodes>
+  <Categories />
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+

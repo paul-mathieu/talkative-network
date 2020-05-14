@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<accounts>
+  <account>
+    <username>admin</username>
+    <password>admin123</password>
+    <permission>concierge</permission>
+    <listen></listen>
+  </account>
+  <account>
+    <username>paul</username>
+    <password>paul123</password>
+    <permission>bavard</permission>
+    <listen></listen>
+  </account>
+</accounts>
