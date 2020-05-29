@@ -1,32 +1,31 @@
-<?xml version="1.0" encoding="UTF-8"?><accounts>
-  <account>
-    <username>admin</username>
-    <password>admin123</password>
-    <permission>concierge</permission>
-    <listen/>
-  </account>
-  <account>
-    <username>paul</username>
-    <password>paul123</password>
-    <permission>bavard</permission>
-    <listen/>
-  </account>
-<account>
-    <username>noah</username>
-    <password>noa</password>
-    <permission>bavard</permission>
-    <listen/>
-  </account>
-<account>
-    <username>sorana</username>
-    <password>s</password>
-    <permission>bavard</permission>
-    <listen/>
-  </account>
-<account>
-    <username>kave</username>
-    <password>kv</password>
-    <permission>bavard</permission>
-    <listen/>
-  </account>
-</accounts>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><accounts>
+    <account>
+        <username>admin</username>
+        <password>admin123</password>
+        <permission>concierge</permission>
+    </account>
+    <account>
+        <username>paul</username>
+        <password>paul123</password>
+        <permission>bavard</permission>
+        <listen><listener>kave</listener></listen>
+    </account>
+    <account>
+        <username>noah</username>
+        <password>noa</password>
+        <permission>bavard</permission>
+        <listen/>
+    </account>
+    <account>
+        <username>sorana</username>
+        <password>s</password>
+        <permission>bavard</permission>
+        <listen/>
+    </account>
+    <account>
+        <username>kave</username>
+        <password>kv</password>
+        <permission>bavard</permission>
+        <listen><listener>paul</listener><listener>paul</listener></listen>
+    </account>
+<account><username>simon</username><password>s</password><permission>bavard</permission><listen/></account><account><username>kevin</username><password>k</password><permission>bavard</permission><listen/></account><account><username>toto</username><password>t</password><permission>bavard</permission><listen/></account></accounts>
