@@ -4,7 +4,7 @@
 
 You may be missing elements from the commons codec library of apache.org, you can add in the parameters of your project the .jar file available in the talkative-network\lib directory
 
-## Sujet
+## Subject
 
 The goal is to create an offline instant messaging application using all our knowledge acquired in Java.
 This instant messaging application is called ePapotage and should allow bavards to post messages and other bavards to listen to them if they want. The users of this system are therefore a concierge as well as several bavards. Each bavard can register with the manager to post messages and receive messages from other bavards. Communication between these users will be done using the event mechanism. Bavards and the concierge will exchange PapotageEvent. In response to the receipt of this message, the concierge forwards it to all connected bavards.
