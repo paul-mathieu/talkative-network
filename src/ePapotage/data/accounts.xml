@@ -8,7 +8,7 @@
         <username>paul</username>
         <password>paul123</password>
         <permission>bavard</permission>
-        <listen><listener>kave</listener></listen>
+        <listen><listener>kave</listener><listener>abc111</listener><listener>paul2</listener></listen>
     </account>
     <account>
         <username>noah</username>
@@ -28,4 +28,4 @@
         <permission>bavard</permission>
         <listen><listener>paul</listener><listener>paul</listener></listen>
     </account>
-<account><username>simon</username><password>s</password><permission>bavard</permission><listen/></account><account><username>kevin</username><password>k</password><permission>bavard</permission><listen/></account><account><username>toto</username><password>t</password><permission>bavard</permission><listen/></account></accounts>
+<account><username>simon</username><password>s</password><permission>bavard</permission><listen/></account><account><username>kevin</username><password>k</password><permission>bavard</permission><listen/></account><account><username>toto</username><password>t</password><permission>bavard</permission><listen/></account><account><username>paul2</username><password>p</password><permission>bavard</permission><listen/></account></accounts>
