@@ -1,9 +1,7 @@
 package ePapotage.gui;
 
 import javax.swing.*;
-import javax.xml.parsers.ParserConfigurationException;
 import ePapotage.ePapotage;
-import org.xml.sax.SAXException;
 
 import java.awt.*;
 import java.io.IOException;

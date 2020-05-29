@@ -33,25 +33,25 @@ public class ConciergeFrame extends JFrame {
 
 		//Basic GUI things
 		this.setTitle(concierge.getName());
-		this.setSize(800, 600);
+		this.setSize(800, 500);
 		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 	    this.setLocationRelativeTo(null);
 	    this.setResizable(false);
 	   	    
-	    //Content of the frame
+	    // Content of the frame
 	    
-	    //The chat display where we set a default message (and which is not editable by the user)
+	    // The chat display where we set a default message (and which is not editable by the user)
 	    this.chatDisplay = new JTextArea("");
 	    this.chatDisplay.setEditable(false);
 	    
-	    //A Scroll panel with is usefull to show too long messages for exemple
+	    // A Scroll panel with is usefull to show too long messages for exemple
 	    this.displayScrollPanel = new JScrollPane (this.chatDisplay, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         this.displayScrollPanel.setPreferredSize(new Dimension(594, 500));
 	    	    
 	    this.add(this.displayScrollPanel, BorderLayout.NORTH);
 	}
 	
-	//Write the logs to the chat display
+	// Write the logs to the chat display
 	public void writeMessage(String log) {
 		this.chatDisplay.setText(this.chatDisplay.getText() + "\n" + ePapotage.getDate() + ": " + log);
 	}
