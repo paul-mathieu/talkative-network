@@ -77,7 +77,7 @@ public class Concierge {
 
 	// === Part Send Message ===
 
-	public void sendMessage(String username, String message){
+	public void sendMessage(PapotageEvent message){
 		// date
 		String strDate = ePapotage.getDate();
 
@@ -85,19 +85,19 @@ public class Concierge {
 
 		// send to listeners if connected
 		try {
-			for (String name: this.getBavardsWhoListen(username)){
+			for (String name: this.getBavardsWhoListen(message.getBavardName())){
 				if (ePapotage.isBavardConnected(name)){
-					Objects.requireNonNull(ePapotage.getBavardFromName(name)).getBavardFrame().writeMessage(username, strDate, message);
+					Objects.requireNonNull(ePapotage.getBavardFromName(name)).getBavardFrame().writeMessage(message.getBavardName(), strDate, message.getContent());
 				}
 			}
-			Objects.requireNonNull(ePapotage.getBavardFromName(username)).getBavardFrame().writeMessage("you", strDate, message);
+			Objects.requireNonNull(ePapotage.getBavardFromName(message.getBavardName())).getBavardFrame().writeMessage("you", strDate,  message.getContent());
 		} catch (IOException | SAXException | ParserConfigurationException e) {
 			e.printStackTrace();
 		}
 
 		// keep message in the xml file
 		try {
-			this.storeMessage(username, strDate, message);
+			this.storeMessage(message.getBavardName(), strDate, message.getContent());
 		} catch (TransformerException | IOException | SAXException | ParserConfigurationException e) {
 			e.printStackTrace();
 		}
