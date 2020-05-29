@@ -57,37 +57,40 @@ public class AdministratorGUI extends JFrame {
 		userAdd.addActionListener(e -> new CreateBavardGUI());
 
 		// When the administrator wants to log to an existing bavard
-		userLogin.addActionListener(e -> {
-			//Open a LogInToConciergeGUI
-			try {
-				new LogInGUI(conciergeUsername, conciergePassword);
-			} catch (ParserConfigurationException | IOException | SAXException ex) {
-				ex.printStackTrace();
-			}
-		});
+		userLogin.addActionListener(e -> new LogInGUI(conciergeUsername, conciergePassword));
 
-		settingsOpenData.addActionListener(e -> {
-			try {
-				System.out.println(System.getProperty("user.dir") + "\\ePapotage\\data");
-				Runtime.getRuntime().exec("explorer.exe " + System.getProperty("user.dir") + "\\src\\ePapotage\\data");
-			} catch (IOException ex) {
-				ex.printStackTrace();
-			}
-		});
+		settingsOpenData.addActionListener(e -> this.openDataDirectory());
 
-		settingsOpenGithub.addActionListener(e -> {
-			try {
-				if (Desktop.isDesktopSupported()) {
-					Desktop desktop = Desktop.getDesktop();
-					URI uri = new URI("https://github.com/paul-mathieu");
-					desktop.browse(uri);
-				}
-			} catch (IOException | URISyntaxException ex) {
-				ex.printStackTrace();
-			}
-		});
+		settingsOpenGithub.addActionListener(e -> this.openGitHubAccount());
 
 		this.setVisible(true);
-	}	
+	}
+
+
+	// ======================================================
+	//   Action Listener Methods
+	// ======================================================
+
+	public void openDataDirectory(){
+		try {
+			System.out.println(System.getProperty("user.dir") + "\\ePapotage\\data");
+			Runtime.getRuntime().exec("explorer.exe " + System.getProperty("user.dir") + "\\src\\ePapotage\\data");
+		} catch (IOException ex) {
+			ex.printStackTrace();
+		}
+	}
+
+	public void openGitHubAccount(){
+		try {
+			if (Desktop.isDesktopSupported()) {
+				Desktop desktop = Desktop.getDesktop();
+				URI uri = new URI("https://github.com/paul-mathieu");
+				desktop.browse(uri);
+			}
+		} catch (IOException | URISyntaxException ex) {
+			ex.printStackTrace();
+		}
+	}
+
 
 }

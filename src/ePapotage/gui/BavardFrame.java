@@ -1,22 +1,24 @@
 package ePapotage.gui;
 
 import java.awt.*;
+import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.IOException;
-import java.time.Instant;
-import java.util.Date;
 import java.util.Objects;
 
 import javax.swing.*;
+import javax.swing.event.MenuListener;
 import javax.xml.parsers.ParserConfigurationException;
 
 import ePapotage.ePapotage;
 import ePapotage.PapotageListener;
+import ePapotage.PapotageEvent;
 import org.xml.sax.SAXException;
+import javax.swing.event.*;
 
 //We are implementing PapotageListener, because we want to register it to a Concierge
-public class BavardFrame extends JFrame implements PapotageListener {
+public class BavardFrame extends JFrame implements PapotageListener, MenuListener {
 
 	// This is not necessary because we don't want to serialize this class, but we
 	// let it not to get the warning
@@ -29,7 +31,7 @@ public class BavardFrame extends JFrame implements PapotageListener {
 	private JTextField chatWriter;
 	private JButton sendButton;
 	private JPanel sendPanel;
-	private JScrollPane displayScrollPanel;
+	private JMenu listBavardsConnected;
 
 	private String bavardUsername;
 	private BavardFrame bavardFrame;
@@ -85,8 +87,10 @@ public class BavardFrame extends JFrame implements PapotageListener {
 		JMenu menuBavardFrame = new JMenu("Settings");
 		menuBar.add(menuBavardFrame);
 
-		JMenu listBavardsConnected = new JMenu("List of Bavards connected");
+		listBavardsConnected = new JMenu("List of Bavards connected");
 		menuBavardFrame.add(listBavardsConnected);
+		listBavardsConnected.setMnemonic(KeyEvent.VK_M);
+		listBavardsConnected.addMenuListener(this);
 
 		JMenuItem connectToBavard = new JMenuItem("Add a Bavard to listen");
 		menuBavardFrame.add(connectToBavard);
@@ -94,21 +98,9 @@ public class BavardFrame extends JFrame implements PapotageListener {
 		JMenuItem disconnectToBavard = new JMenuItem("Take off a Bavard to listen");
 		menuBavardFrame.add(disconnectToBavard);
 
-		connectToBavard.addActionListener(e -> {
-			try {
-				new ConnectGUI("connect", this.getBavardUsername());
-			} catch (ParserConfigurationException | IOException | SAXException ex) {
-				ex.printStackTrace();
-			}
-		});
+		connectToBavard.addActionListener(e -> connectToGui("connect"));
 
-		disconnectToBavard.addActionListener(e -> {
-			try {
-				new ConnectGUI("disconnect", this.getBavardUsername());
-			} catch (ParserConfigurationException | IOException | SAXException ex) {
-				ex.printStackTrace();
-			}
-		});
+		disconnectToBavard.addActionListener(e -> connectToGui("disconnect"));
 
 		writeAndSendPanel.setLayout(new BoxLayout(writeAndSendPanel, BoxLayout.Y_AXIS));
 		writeAndSendPanel.add(displayScrollPanel);
@@ -127,40 +119,14 @@ public class BavardFrame extends JFrame implements PapotageListener {
 		this.setContentPane(writeAndSendPanel);
 
 		// We add an ActionListener to the button used to send messages
-		this.sendButton.addActionListener(e -> {
-
-			// If the message contains something
-			if (!chatWriter.getText().isEmpty()) {
-
-				// We loop through all the Concierge and "tell" to the them which this bavard is
-				// connected to send message to their listeners and then write logs (to keep a
-				// trace)
-				System.out.println("Content: " + this.chatWriter.getText());
-				this.sendMessage(this.chatWriter.getText());
-				String log = "The Bavard " + this.getBavardUsername() + " has just sent a message.";
-				try {
-					log = log + "\n" +
-							"He has sent a total of " + ePapotage.getConcierge().getNumberMessages(this.getBavardUsername()) + " messages since he created his account.\n" +
-							"Since the first launch of the application, " + ePapotage.getConcierge().getNumberMessages() + " messages have been sent.";
-				} catch (IOException | SAXException | ParserConfigurationException ex) {
-					ex.printStackTrace();
-				}
-				ePapotage.getConcierge().getConciergeFrame().writeMessage(log);
-
-				// We reset the text of the chat writer
-				this.chatWriter.setText("");
-			} else {
-				String log = "The Bavard " + this.getBavardUsername() + " has just tried to send a message without content.";
-				ePapotage.getConcierge().getConciergeFrame().writeMessage(log);
-			}
-
-		});
+		this.sendButton.addActionListener(e -> this.writeSendMessageLogToConcierge());
 
 		// We set a default button, thanks to this we only need to press enter and the
 		// message will be sent
 		this.writeAndSendPanel.getRootPane().setDefaultButton(this.sendButton);
 
 	}
+
 
 	// ======================================================
 	//   Main methods
@@ -191,18 +157,68 @@ public class BavardFrame extends JFrame implements PapotageListener {
 	//   Setters
 	// ======================================================
 
-	public void setWriteAndSendPanel(JPanel writeAndSendPanel) {this.writeAndSendPanel = writeAndSendPanel;}
+	public void setBavardsConnectedList(){
+		JMenuItem bavardName;
+		this.listBavardsConnected.removeAll();
+		for (String b: ePapotage.getNameBavardsConnected()) {
+			bavardName = new JMenuItem(b);
+			this.listBavardsConnected.add(bavardName);
+		}
+	}
 
-	public void setChatDisplay(JTextArea chatDisplay) {this.chatDisplay = chatDisplay;}
+	// ======================================================
+	//   Action Listener Methods
+	// ======================================================
 
-	public void setChatWriter(JTextField chatWriter) {this.chatWriter = chatWriter;}
+	private void connectToGui(String typeConnection){
+		if (typeConnection.equals("connect") || typeConnection.equals("disconnect")){
+			try {
+				new ConnectGUI(typeConnection, this.getBavardUsername());
+			} catch (ParserConfigurationException | IOException | SAXException ex) {
+				ex.printStackTrace();
+			}
+		}
+	}
 
-	public void setSendButton(JButton sendButton) {this.sendButton = sendButton;}
+	private void writeSendMessageLogToConcierge() {
+		// If the message contains something
+		if (!chatWriter.getText().isEmpty()) {
 
-	public void setSendPanel(JPanel sendPanel) {this.sendPanel = sendPanel;}
+			// We loop through all the Concierge and "tell" to the them which this bavard is
+			// connected to send message to their listeners and then write logs (to keep a
+			// trace)
+			System.out.println("Content: " + this.chatWriter.getText());
+			this.sendMessage(this.chatWriter.getText());
+			String log = "The Bavard " + this.getBavardUsername() + " has just sent a message.";
+			try {
+				log = log + "\n" +
+						"He has sent a total of " + ePapotage.getConcierge().getNumberMessages(this.getBavardUsername()) + " messages since he created his account.\n" +
+						"Since the first launch of the application, " + ePapotage.getConcierge().getNumberMessages() + " messages have been sent.";
+			} catch (IOException | SAXException | ParserConfigurationException ex) {
+				ex.printStackTrace();
+			}
+			ePapotage.getConcierge().getConciergeFrame().writeMessage(log);
 
-	public void setDisplayScrollPanel(JScrollPane displayScrollPanel) {this.displayScrollPanel = displayScrollPanel;}
+			// We reset the text of the chat writer
+			this.chatWriter.setText("");
+		} else {
+			String log = "The Bavard " + this.getBavardUsername() + " has just tried to send a message without content.";
+			ePapotage.getConcierge().getConciergeFrame().writeMessage(log);
+		}
+	}
 
-	public void setBavardFrame(BavardFrame bavardFrame) {this.bavardFrame = bavardFrame;}
+	// ======================================================
+	//   Override methods of MenuListener
+	// ======================================================
 
+	@Override
+	public void menuSelected(MenuEvent menuEvent) {
+		this.setBavardsConnectedList();
+	}
+
+	@Override
+	public void menuDeselected(MenuEvent menuEvent) {}
+
+	@Override
+	public void menuCanceled(MenuEvent menuEvent) {}
 }

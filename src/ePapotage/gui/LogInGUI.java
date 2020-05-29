@@ -1,6 +1,7 @@
 package ePapotage.gui;
 
 
+import java.awt.event.ActionListener;
 import java.io.IOException;
 
 import javax.swing.GroupLayout;
@@ -32,7 +33,7 @@ public class LogInGUI {
 
 
 	// The Gui is used to log the Bavard to his BavardFrame
-	public LogInGUI(String conciergeUsername, String conciergePassword) throws ParserConfigurationException, IOException, SAXException {
+	public LogInGUI(String conciergeUsername, String conciergePassword) {
 
 		this.conciergeUsername = conciergeUsername;
 		this.conciergePassword = conciergePassword;
@@ -55,7 +56,7 @@ public class LogInGUI {
 		// The group layout
 
 		JButton logInButton = new JButton("Log In");
-		logInButton.addActionListener(arg0 -> {});
+//		logInButton.addActionListener(arg0 -> {});
 
 		GroupLayout groupLayout = new GroupLayout(frame.getContentPane());
 		groupLayout.setHorizontalGroup(groupLayout.createParallelGroup(Alignment.LEADING).addGroup(groupLayout
@@ -91,55 +92,61 @@ public class LogInGUI {
 		frame.getRootPane().setDefaultButton(logInButton);
 
 		// We add the listener to the log in button
-		logInButton.addActionListener(e -> {
+		logInButton.addActionListener(e -> loginListener());
 
-			// We get the name and if the Bavard already exists we log to him, otherwise we deny the log in
-			try {
+		frame.setVisible(true);
+	}
+
+
+	// ======================================================
+	//   Action Listener Methods
+	// ======================================================
+
+	private void loginListener(){
+		// We get the name and if the Bavard already exists we log to him, otherwise we deny the log in
+		try {
 //				System.out.println("Username: " + usernameInput.getText());
 //				System.out.println("Password user: " + passInput.getText());
 //				System.out.println("Password input: " + this.bavard.getBavardPassword(usernameInput.getText()));
-				if (this.bavard.isExisting(usernameInput.getText())) {
-					String username = usernameInput.getText();
-					// Check if the password entered matchs to the Bavard password (with the md5 encryption)
-					if (username.equals("admin")){
-						ePapotage.getConcierge().getConciergeFrame().setVisible(true);
-						frame.dispose();
-						return;
-					}
-					if (this.bavard.getBavardPassword(username).equals(passInput.getText())) {
+			if (this.bavard.isExisting(usernameInput.getText())) {
+				String username = usernameInput.getText();
+				// Check if the password entered matchs to the Bavard password (with the md5 encryption)
+				if (username.equals("admin")){
+					ePapotage.getConcierge().getConciergeFrame().setVisible(true);
+					frame.dispose();
+					return;
+				}
+				if (this.bavard.getBavardPassword(username).equals(passInput.getText())) {
 
-						// Check if the Bavard is already logged in (that is to say if the window is already visible)
-						if (ePapotage.getBavardsConnected().size() != 0) {
-							if (ePapotage.getBavardFromName(username) != null) {
-								JOptionPane.showMessageDialog(frame, "This bavard is already logged in");
-								String log = "The Bavard " + username + " has tried to connect while he is already connected.";
-								ePapotage.getConcierge().getConciergeFrame().writeMessage(log);
-								return;
-							}
+					// Check if the Bavard is already logged in (that is to say if the window is already visible)
+					if (ePapotage.getBavardsConnected().size() != 0) {
+						if (ePapotage.getBavardFromName(username) != null) {
+							JOptionPane.showMessageDialog(frame, "This bavard is already logged in");
+							String log = "The Bavard " + username + " has tried to connect while he is already connected.";
+							ePapotage.getConcierge().getConciergeFrame().writeMessage(log);
+							return;
 						}
-
-						// Display the BavardFrame
-						ePapotage.addBavard(new Bavard(username));
-						String log = "The Bavard " + username + " has just connected.";
-						ePapotage.getConcierge().getConciergeFrame().writeMessage(log);
-
-						frame.dispose();
-					} else {
-						JOptionPane.showMessageDialog(frame, "Your password is incorrect!");
-						String log = "The Bavard " + username + " tried to connect but got the wrong password";
-						ePapotage.getConcierge().getConciergeFrame().writeMessage(log);
 					}
+
+					// Display the BavardFrame
+					ePapotage.addBavard(new Bavard(username));
+					String log = "The Bavard " + username + " has just connected.";
+					ePapotage.getConcierge().getConciergeFrame().writeMessage(log);
+
+					frame.dispose();
 				} else {
-					JOptionPane.showMessageDialog(frame, "This bavard doesn't exist!");
-					String log = "A user tried to connect to a nonexistent Bavard (" + usernameInput.getText() + ").";
+					JOptionPane.showMessageDialog(frame, "Your password is incorrect!");
+					String log = "The Bavard " + username + " tried to connect but got the wrong password";
 					ePapotage.getConcierge().getConciergeFrame().writeMessage(log);
 				}
-			} catch (ParserConfigurationException | IOException | SAXException ex) {
-				ex.printStackTrace();
+			} else {
+				JOptionPane.showMessageDialog(frame, "This bavard doesn't exist!");
+				String log = "A user tried to connect to a nonexistent Bavard (" + usernameInput.getText() + ").";
+				ePapotage.getConcierge().getConciergeFrame().writeMessage(log);
 			}
+		} catch (ParserConfigurationException | IOException | SAXException ex) {
+			ex.printStackTrace();
+		}
 
-		});
-
-		frame.setVisible(true);
 	}
 }

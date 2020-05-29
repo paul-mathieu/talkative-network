@@ -81,53 +81,61 @@ public class CreateBavardGUI {
 		frame.setVisible(true);
 
 		// We add an ActionListener when the register button is clicked
-		registerButton.addActionListener(e -> {
-
-			// We check that all the fields are not empty
-			if (usernameInput.getText().isEmpty()) {
-				JOptionPane.showMessageDialog(frame, "Incorrect username!");
-				return;
-			}
-
-			if (passInput.getText().isEmpty()) {
-				JOptionPane.showMessageDialog(frame, "Incorrect password!");
-				return;
-			}
-
-			// We check that the Barvard does not exist yet
-			try {
-				if (!this.bavard.isExisting(usernameInput.getText())) {
-
-					// Check if the two passwords are the same (we are using md5 as the encryption method)
-//					String password = DigestUtils.md5Hex(passInput.getText());
-//					String passwordConfirm = DigestUtils.md5Hex(confirmInput.getText());
-					String password = passInput.getText();
-					String passwordConfirm = confirmInput.getText();
-					System.out.println(password);
-
-					String username = usernameInput.getText();
-
-					if (passwordConfirm.equals(password)) {
-						// === For the GUI ===
-						String log = "The Bavard " + usernameInput.getText() + " just created an account.";
-						ePapotage.getConcierge().getConciergeFrame().writeMessage(log);
-
-						// === For the xml file ===
-						Concierge.addBavard(username, password);
-
-						frame.dispose();
-					} else {
-						JOptionPane.showMessageDialog(frame, "The passwords don't match !");
-					}
-				} else {
-					JOptionPane.showMessageDialog(frame, "This bavard already exists !");
-				}
-			} catch (ParserConfigurationException | IOException | SAXException | TransformerException ex) {
-				ex.printStackTrace();
-			}
-		});
+		registerButton.addActionListener(e -> this.createBavard());
 
 		// Set the default button
 		frame.getRootPane().setDefaultButton(registerButton);
 	}
+
+	// ======================================================
+	//   Action Listener Methods
+	// ======================================================
+
+	public void createBavard(){
+
+		// We check that all the fields are not empty
+		if (usernameInput.getText().isEmpty()) {
+			JOptionPane.showMessageDialog(frame, "Incorrect username!");
+			return;
+		}
+
+		if (passInput.getText().isEmpty()) {
+			JOptionPane.showMessageDialog(frame, "Incorrect password!");
+			return;
+		}
+
+		// We check that the Barvard does not exist yet
+		try {
+			if (!this.bavard.isExisting(usernameInput.getText())) {
+
+				// Check if the two passwords are the same (we are using md5 as the encryption method)
+//					String password = DigestUtils.md5Hex(passInput.getText());
+//					String passwordConfirm = DigestUtils.md5Hex(confirmInput.getText());
+				String password = passInput.getText();
+				String passwordConfirm = confirmInput.getText();
+				System.out.println(password);
+
+				String username = usernameInput.getText();
+
+				if (passwordConfirm.equals(password)) {
+					// === For the GUI ===
+					String log = "The Bavard " + usernameInput.getText() + " just created an account.";
+					ePapotage.getConcierge().getConciergeFrame().writeMessage(log);
+
+					// === For the xml file ===
+					Concierge.addBavard(username, password);
+
+					frame.dispose();
+				} else {
+					JOptionPane.showMessageDialog(frame, "The passwords don't match !");
+				}
+			} else {
+				JOptionPane.showMessageDialog(frame, "This bavard already exists !");
+			}
+		} catch (ParserConfigurationException | IOException | SAXException | TransformerException ex) {
+			ex.printStackTrace();
+		}
+
+	}
+
 }

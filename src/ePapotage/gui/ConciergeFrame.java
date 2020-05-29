@@ -67,4 +67,5 @@ public class ConciergeFrame extends JFrame {
 	public void setPassword(String password) {
 		this.password = password;
 	}
+
 }
