@@ -102,6 +102,14 @@ public class ePapotage {
 
 	public static ArrayList<Bavard> getBavardsConnected() {return bavardsConnected;}
 
+	public static ArrayList<String> getNameBavardsConnected() {
+		ArrayList<String> NameBavardsConnected = new ArrayList<>();
+		for (Bavard b: getBavardsConnected()){
+			NameBavardsConnected.add(b.getName());
+		}
+		return NameBavardsConnected;
+	}
+
 	public static Concierge getConcierge() {return concierge;}
 
 
