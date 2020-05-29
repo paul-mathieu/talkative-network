@@ -9,6 +9,11 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
 import java.io.IOException;
 
+/**
+ * This object allows to display a frame so that a user connects or disconnects from another user
+ *   (to listen to it or on the contrary not to listen to it any more).
+ * You must enter a username is after validation, the bavard will hear or no longer hear this second user.
+ */
 public class ConnectGUI {
 
     private JFrame frame;

@@ -10,6 +10,11 @@ import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 import java.util.ArrayList;
 
+/**
+ * This object is the bavard.
+ * It allows you to call the chat window.
+ * It also allows messages to be passed from the bavard window to the concierge.
+ */
 public class Bavard implements PapotageListener {
 	
 	//Variables

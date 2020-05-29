@@ -18,6 +18,11 @@ import java.util.Calendar;
 import java.util.Date;
 
 
+/**
+ * This object is the source.
+ * It is the root element which must be executed to launch the project.
+ * It allows you to manage the users to connect, to display the main connection interface or even to create the concierge.
+ */
 public class ePapotage {
 
 	//The admin GUI which is the first menu we encounter

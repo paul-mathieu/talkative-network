@@ -1,7 +1,6 @@
 package ePapotage.gui;
 
 
-import java.awt.event.ActionListener;
 import java.io.IOException;
 
 import javax.swing.GroupLayout;
@@ -18,6 +17,13 @@ import ePapotage.ePapotage;
 import ePapotage.Bavard;
 import org.xml.sax.SAXException;
 
+/**
+ * This object creates a window that opens with the possibility of entering a user name and password.
+ * If the password does not match the one indicated in the accounts file, an error is displayed,
+ *   otherwise the window corresponding to the account is displayed.
+ * It is possible to connect to a bavard account from this window but also to the concierge account
+ *   with the user name "admin" and the password "admin".
+ */
 public class LogInGUI {
 
 	private JFrame frame;
@@ -32,7 +38,7 @@ public class LogInGUI {
 	private Bavard bavard = new Bavard();
 
 
-	// The Gui is used to log the Bavard to his BavardFrame
+	// The Gui is used to log a user to his BavardFrame
 	public LogInGUI(String conciergeUsername, String conciergePassword) {
 
 		this.conciergeUsername = conciergeUsername;
@@ -54,9 +60,7 @@ public class LogInGUI {
 		passInput.setEchoChar('\u2022');
 
 		// The group layout
-
 		JButton logInButton = new JButton("Log In");
-//		logInButton.addActionListener(arg0 -> {});
 
 		GroupLayout groupLayout = new GroupLayout(frame.getContentPane());
 		groupLayout.setHorizontalGroup(groupLayout.createParallelGroup(Alignment.LEADING).addGroup(groupLayout
@@ -103,11 +107,8 @@ public class LogInGUI {
 	// ======================================================
 
 	private void loginListener(){
-		// We get the name and if the Bavard already exists we log to him, otherwise we deny the log in
+		// Get the name and if the Bavard already exists we log to him, otherwise we deny the log in
 		try {
-//				System.out.println("Username: " + usernameInput.getText());
-//				System.out.println("Password user: " + passInput.getText());
-//				System.out.println("Password input: " + this.bavard.getBavardPassword(usernameInput.getText()));
 			if (this.bavard.isExisting(usernameInput.getText())) {
 				String username = usernameInput.getText();
 				// Check if the password entered matchs to the Bavard password (with the md5 encryption)

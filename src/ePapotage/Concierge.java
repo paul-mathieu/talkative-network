@@ -18,6 +18,13 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 
+/**
+ * This object is the concierge.
+ * It allows to call the concierge logs window.
+ * It also manages the messages by redistributing them or by storing them.
+ * It also allows you to load old messages when a bavard reconnects.
+ * Finally, it allows users to connect or disconnect between them.
+ */
 public class Concierge {
 	
 	//variables

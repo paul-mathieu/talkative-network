@@ -3,7 +3,6 @@ package ePapotage.gui;
 import ePapotage.ePapotage;
 import ePapotage.Bavard;
 import ePapotage.Concierge;
-import org.apache.commons.codec.digest.DigestUtils;
 import org.xml.sax.SAXException;
 
 import javax.swing.*;
@@ -12,6 +11,16 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
 import java.io.IOException;
 
+/**
+ * The user must enter a unique username that is not already in use by someone else.
+ * You must then enter a password and confirm it.
+ * This password has no size restrictions.
+ * It is important to remember this because an account cannot be deleted later and a password cannot be changed.
+ * The only way to change it would be to directly access the accounts file.
+ * Also, the password should not be the same as the user name because otherwise an error is displayed.
+ * If everything goes as planned, the window closes automatically and the bavard's account is saved in the database,
+ *   in the file accounts.xml.
+ */
 public class CreateBavardGUI {
 
 	// Variables
@@ -25,8 +34,7 @@ public class CreateBavardGUI {
 
 	private Bavard bavard = new Bavard();
 
-	// This Gui is used to create a new Bavard with a username and two fields for
-	// the password
+	// This Gui is used to create a new Bavard with a username and two fields for the password
 	public CreateBavardGUI() {
 
 		frame = new JFrame("Create Bavard");
@@ -50,7 +58,6 @@ public class CreateBavardGUI {
 		confirmInput.setEchoChar('\u2022');
 
 		// The group layout
-
 		JButton registerButton = new JButton("Register Bavard");
 		GroupLayout groupLayout = new GroupLayout(frame.getContentPane());
 		groupLayout.setHorizontalGroup(groupLayout.createParallelGroup(Alignment.LEADING)
@@ -109,8 +116,6 @@ public class CreateBavardGUI {
 			if (!this.bavard.isExisting(usernameInput.getText())) {
 
 				// Check if the two passwords are the same (we are using md5 as the encryption method)
-//					String password = DigestUtils.md5Hex(passInput.getText());
-//					String passwordConfirm = DigestUtils.md5Hex(confirmInput.getText());
 				String password = passInput.getText();
 				String passwordConfirm = confirmInput.getText();
 				System.out.println(password);

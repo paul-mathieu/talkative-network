@@ -10,6 +10,21 @@ import javax.swing.JTextArea;
 import ePapotage.Concierge;
 import ePapotage.ePapotage;
 
+
+/**
+ * The concierge has a rather simple interface.
+ * This interface is created when the application is launched, but it is only visible when the administrator logs out.
+ * If the concierge logs out, his window becomes hidden again.
+ * On this interface are most of the events that have occurred since the application was last launched.
+ * These events are displayed in the form of logs and tell the concierge what is happening on the application.
+ * You can find the following:
+ * - The login of a user and his name
+ * - The name of a user who has just tried to connect but who has forgotten his password
+ * - The name of a user who has just been added to the listened to list of another user
+ * - The sending of a message by a user, with the total number of messages that the user has sent as well as the total
+ *     number of messages sent by the application since the very first message was sent
+ * - The name of a user who just tried to send a message without content
+ */
 public class ConciergeFrame extends JFrame {
 
 	// This is not necessary because we don't want to serialize this class, but we
@@ -54,18 +69,6 @@ public class ConciergeFrame extends JFrame {
 	// Write the logs to the chat display
 	public void writeMessage(String log) {
 		this.chatDisplay.setText(this.chatDisplay.getText() + "\n" + ePapotage.getDate() + ": " + log);
-	}
-	
-	public Concierge getConcierge() {
-		return concierge;
-	}
-
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
 	}
 
 }

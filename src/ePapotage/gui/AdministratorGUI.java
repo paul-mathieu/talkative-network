@@ -8,6 +8,12 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 
+/**
+ * This object is the main window of the application. This is the one displayed when the application is launched.
+ * The menu "Account" allows you to create an account or connect to an existing account.
+ * The menu "Settings" allows you to open the folder containing the data storage files but also to open the link to my GitHub page.
+ * The background is an image available in the resource directory.
+ */
 public class AdministratorGUI extends JFrame {
 
 	private static final long serialVersionUID = 1L;

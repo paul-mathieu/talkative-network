@@ -13,19 +13,21 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import ePapotage.ePapotage;
 import ePapotage.PapotageListener;
-import ePapotage.PapotageEvent;
 import org.xml.sax.SAXException;
 import javax.swing.event.*;
 
-//We are implementing PapotageListener, because we want to register it to a Concierge
+/**
+ * This window is made up of a menu bar with the parameter menu, a text zone where messages are displayed and a zone
+ * for sending messages.
+ * Each user can send messages but also listen to them.
+ * If a talker is talking, that is, sending a message, the user can receive it.
+ * For that, he must have chosen to listen to him.
+ */
 public class BavardFrame extends JFrame implements PapotageListener, MenuListener {
 
-	// This is not necessary because we don't want to serialize this class, but we
-	// let it not to get the warning
 	private static final long serialVersionUID = 1L;
 
 	// All the variables
-
 	private JPanel writeAndSendPanel;
 	private JTextArea chatDisplay;
 	private JTextField chatWriter;
@@ -49,12 +51,9 @@ public class BavardFrame extends JFrame implements PapotageListener, MenuListene
 		this.setLocationRelativeTo(null);
 		this.setResizable(false);
 
-		// We don't want the program to finish, just the window to close, this is why we
-		// are using DISPOSE_ON_CLOSE instead of EXIT_ON_CLOSE
+		// Better to use DISPOSE_ON_CLOSE instead of EXIT_ON_CLOSE to close
 		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
-		// If the person closes the window we inform the Concierges who are listening to
-		// the bavard, that his window has been closed
 		this.addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosed(WindowEvent windowEvent) {
@@ -62,8 +61,7 @@ public class BavardFrame extends JFrame implements PapotageListener, MenuListene
 			}
 		});
 
-		// Content of the frame, no need to explain
-
+		// Content of the frame
 		this.chatDisplay = new JTextArea();
 		this.chatDisplay.setEditable(false);
 
@@ -118,11 +116,10 @@ public class BavardFrame extends JFrame implements PapotageListener, MenuListene
 
 		this.setContentPane(writeAndSendPanel);
 
-		// We add an ActionListener to the button used to send messages
+		// ActionListener to write logs
 		this.sendButton.addActionListener(e -> this.writeSendMessageLogToConcierge());
 
-		// We set a default button, thanks to this we only need to press enter and the
-		// message will be sent
+		// Set send button
 		this.writeAndSendPanel.getRootPane().setDefaultButton(this.sendButton);
 
 	}

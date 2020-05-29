@@ -2,6 +2,12 @@ package ePapotage;
 
 import java.util.EventObject;
 
+/**
+ * This object is the papotage event.
+ * It is the class of the event which makes it possible to manage the messages.
+ * He super a bavard object.
+ * It takes as a parameter a bavard and the content of the message he wants to send.
+ */
 public class PapotageEvent extends EventObject {
 
     private String content;
