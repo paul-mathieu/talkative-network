@@ -4,11 +4,13 @@ import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.IOException;
+import java.time.Instant;
+import java.util.Date;
+import java.util.Objects;
 
 import javax.swing.*;
 import javax.xml.parsers.ParserConfigurationException;
 
-import ePapotage.Bavard;
 import ePapotage.ePapotage;
 import ePapotage.PapotageListener;
 import org.xml.sax.SAXException;
@@ -29,11 +31,8 @@ public class BavardFrame extends JFrame implements PapotageListener {
 	private JPanel sendPanel;
 	private JScrollPane displayScrollPanel;
 
-	private Bavard bavard;
 	private String bavardUsername;
 	private BavardFrame bavardFrame;
-	// The password which is hashed with md5
-	private String password;
 
 	// The constructor needs a bavard and a name
 	public BavardFrame(String bavardUsername) {
@@ -57,9 +56,7 @@ public class BavardFrame extends JFrame implements PapotageListener {
 		this.addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosed(WindowEvent windowEvent) {
-				if (ePapotage.getConcierge().getListeners().contains(bavard)) {
-					ePapotage.removeBavard(bavardUsername);
-				}
+				ePapotage.removeBavard(bavardUsername);
 			}
 		});
 
@@ -113,26 +110,6 @@ public class BavardFrame extends JFrame implements PapotageListener {
 			}
 		});
 
-//		listBavardsConnected
-
-
-//		jCheckBoxMenuItem.addActionListener(e -> {
-//			// Here we choose to connect or not
-//			if (jCheckBoxMenuItem.getState()) {
-//				ePapotage.getConcierge().addListener(bavard);
-//				ePapotage.getConcierge().addListener(bavardFrame);
-//				ePapotage.getConcierge().getConciergeFrame().writeLogs(this.getBavardUsername() + " is now following you");
-//			} else {
-//				ePapotage.getConcierge().removeListener(bavard);
-//				ePapotage.getConcierge().removeListener(bavardFrame);
-//				ePapotage.getConcierge().getConciergeFrame().writeLogs(this.getBavardUsername() + " is no longer following you");
-//			}
-//		});
-
-
-		// We are now using a GroupLayout which is pretty hard to explain and to deal
-		// with, but we finally succeed :D
-
 		writeAndSendPanel.setLayout(new BoxLayout(writeAndSendPanel, BoxLayout.Y_AXIS));
 		writeAndSendPanel.add(displayScrollPanel);
 		writeAndSendPanel.add(sendPanel);
@@ -158,10 +135,23 @@ public class BavardFrame extends JFrame implements PapotageListener {
 				// We loop through all the Concierge and "tell" to the them which this bavard is
 				// connected to send message to their listeners and then write logs (to keep a
 				// trace)
+				System.out.println("Content: " + this.chatWriter.getText());
 				this.sendMessage(this.chatWriter.getText());
+				String log = "The Bavard " + this.getBavardUsername() + " has just sent a message.";
+				try {
+					log = log + "\n" +
+							"He has sent a total of " + ePapotage.getConcierge().getNumberMessages(this.getBavardUsername()) + " messages since he created his account.\n" +
+							"Since the first launch of the application, " + ePapotage.getConcierge().getNumberMessages() + " messages have been sent.";
+				} catch (IOException | SAXException | ParserConfigurationException ex) {
+					ex.printStackTrace();
+				}
+				ePapotage.getConcierge().getConciergeFrame().writeMessage(log);
 
 				// We reset the text of the chat writer
 				this.chatWriter.setText("");
+			} else {
+				String log = "The Bavard " + this.getBavardUsername() + " has just tried to send a message without content.";
+				ePapotage.getConcierge().getConciergeFrame().writeMessage(log);
 			}
 
 		});
@@ -178,26 +168,22 @@ public class BavardFrame extends JFrame implements PapotageListener {
 
 	@Override
 	public void sendMessage(String text) {
-		this.getBavard().sendMessage(chatWriter.getText());
+		Objects.requireNonNull(ePapotage.getBavardFromName(this.getBavardUsername())).sendMessage(text);
 	}
+
+	public void writeMessage(String username, String date, String message) {
+		String actualDate = ePapotage.getDate();
+
+		String newDate = actualDate.substring(0, 10).equals(date.substring(0, 10)) ? date.substring(11) : date;
+
+		String allMessages = this.chatDisplay.getText();
+		this.chatDisplay.setText(allMessages + "\n" + username + " (" + newDate + "): " + message);
+	}
+
 
 	// ======================================================
 	//   Getters
 	// ======================================================
-
-	public JPanel getWriteAndSendPanel() {return this.writeAndSendPanel;}
-
-	public JTextArea getChatDisplay() {return this.chatDisplay;}
-
-	public JTextField getChatWriter() {return this.chatWriter;}
-
-	public JButton getSendButton() {return this.sendButton;}
-
-	public JScrollPane getDisplayScrollPanel() {return displayScrollPanel;}
-
-	public JPanel getSendPanel() {return this.sendPanel;}
-
-	public Bavard getBavard() {return bavard;}
 
 	public String getBavardUsername() {return this.bavardUsername;}
 

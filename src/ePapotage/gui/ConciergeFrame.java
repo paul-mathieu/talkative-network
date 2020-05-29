@@ -2,14 +2,13 @@ package ePapotage.gui;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.time.Instant;
-import java.util.Date;
 
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
 import ePapotage.Concierge;
+import ePapotage.ePapotage;
 
 public class ConciergeFrame extends JFrame {
 
@@ -27,11 +26,11 @@ public class ConciergeFrame extends JFrame {
 	private String password;
 	
 	//The constructor which takes only a Concierge
-	public ConciergeFrame() {
+	public ConciergeFrame(Concierge concierge) {
 
 		//We set the Concierge of the current ConciergeFrame to the concierge given in arguments
-		this.setConcierge(new Concierge());
-		
+		this.concierge = concierge;
+
 		//Basic GUI things
 		this.setTitle(concierge.getName());
 		this.setSize(800, 600);
@@ -42,7 +41,7 @@ public class ConciergeFrame extends JFrame {
 	    //Content of the frame
 	    
 	    //The chat display where we set a default message (and which is not editable by the user)
-	    this.chatDisplay = new JTextArea("--- Concierge " + concierge.getName() + " has been registered ---");
+	    this.chatDisplay = new JTextArea("");
 	    this.chatDisplay.setEditable(false);
 	    
 	    //A Scroll panel with is usefull to show too long messages for exemple
@@ -53,16 +52,12 @@ public class ConciergeFrame extends JFrame {
 	}
 	
 	//Write the logs to the chat display
-	public void writeLogs(String log) {
-		this.chatDisplay.setText(this.chatDisplay.getText() + "\n" + "(" + Date.from(Instant.EPOCH) + ") " + log);
+	public void writeMessage(String log) {
+		this.chatDisplay.setText(this.chatDisplay.getText() + "\n" + ePapotage.getDate() + ": " + log);
 	}
 	
 	public Concierge getConcierge() {
 		return concierge;
-	}
-
-	public void setConcierge(Concierge concierge) {
-		this.concierge = concierge;
 	}
 
 	public String getPassword() {

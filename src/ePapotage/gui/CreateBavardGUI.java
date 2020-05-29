@@ -108,12 +108,9 @@ public class CreateBavardGUI {
 					String username = usernameInput.getText();
 
 					if (passwordConfirm.equals(password)) {
-						// First we create a new Bavard
-//						Bavard bavard = new Bavard(username);
-
 						// === For the GUI ===
-						// We add this Bavard to a new BavardFrame
-//						BavardFrame bavardFrame = new BavardFrame(bavard);
+						String log = "The Bavard " + usernameInput.getText() + " just created an account.";
+						ePapotage.getConcierge().getConciergeFrame().writeMessage(log);
 
 						// === For the xml file ===
 						Concierge.addBavard(username, password);
