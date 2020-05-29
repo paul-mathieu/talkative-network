@@ -42,7 +42,7 @@ public class Bavard implements PapotageListener {
 	@Override
 	public void sendMessage(String message) {
 		// Send the message to the concierge
-		ePapotage.getConcierge().sendMessage(this.getName(), message);
+		ePapotage.getConcierge().sendMessage(new PapotageEvent(this, message));
 	}
 
 	public String getBavardPassword(String bavardName) throws ParserConfigurationException, IOException, SAXException {
