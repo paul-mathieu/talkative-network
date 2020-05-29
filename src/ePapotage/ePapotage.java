@@ -1,6 +1,8 @@
 package ePapotage;
 
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 import ePapotage.gui.AdministratorGUI;
@@ -12,6 +14,8 @@ import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 
 import java.io.File;
+import java.util.Calendar;
+import java.util.Date;
 
 
 public class ePapotage {
@@ -57,6 +61,15 @@ public class ePapotage {
 		ePapotage.setBavardsConnected(newBavardsConnected);
 	}
 
+	public static boolean isBavardConnected(String bavardUsername){
+		for (Bavard b: bavardsConnected){
+			if (b.getName().equals(bavardUsername)){
+				return true;
+			}
+		}
+		return false;
+	}
+
 	public static Document getAccountsFile() throws ParserConfigurationException, IOException, SAXException {
 		File file = new File("src/ePapotage/data/accounts.xml");
 		Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(file);
@@ -64,13 +77,20 @@ public class ePapotage {
 		return doc;
 	}
 
-	public static Bavard getBavardFrameFromName(String bavardUsername) {
+	public static Bavard getBavardFromName(String bavardUsername) {
 		for (Bavard b : getBavardsConnected()) {
 			if (b.getName().equalsIgnoreCase(bavardUsername)) {
+//				System.out.println(b.getName());
 				return b;
 			}
 		}
 		return null;
+	}
+
+	public static String getDate(){
+		Date date = Calendar.getInstance().getTime();
+		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+		return dateFormat.format(date);
 	}
 
 
