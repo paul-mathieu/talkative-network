@@ -1,15 +1,12 @@
 package ePapotage;
 
 import ePapotage.gui.BavardFrame;
-import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
-import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -24,6 +21,12 @@ public class Bavard implements PapotageListener {
 		this.name = name;
 		this.bavardFrame = new BavardFrame(this.name);
 		this.bavardFrame.setVisible(true);
+		// load old messages
+		try {
+			ePapotage.getConcierge().loadOldMessages(this.getName(), this.getBavardFrame());
+		} catch (IOException | SAXException | ParserConfigurationException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public Bavard(){}
@@ -85,6 +88,7 @@ public class Bavard implements PapotageListener {
 		return null;
 	}
 
+	public BavardFrame getBavardFrame() {return this.bavardFrame;}
 
 	// ======================================================
 	//   Setters
@@ -104,8 +108,8 @@ public class Bavard implements PapotageListener {
 	}
 
 	public boolean isBavard(String bavardName) throws IOException, SAXException, ParserConfigurationException {
-		Element bavardElement = (Element) this.getBavardNode(bavardName);
 		if (this.isExisting(bavardName)) {
+			Element bavardElement = (Element) this.getBavardNode(bavardName);
 			return bavardElement.getElementsByTagName("permission").item(0).getTextContent().equals("bavard");
 		} else {
 			return false;
