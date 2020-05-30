@@ -2,7 +2,7 @@
 
 ### Important
 
-You may be missing elements from the commons codec library of apache.org, you can add in the parameters of your project the .jar file available in the talkative-network\lib directory
+**You may be missing elements from the commons codec library of apache.org, you can add in the parameters of your project the .jar file available in the talkative-network\lib directory**
 
 ## Subject
 
